@@ -1,7 +1,7 @@
 from django.db import models
-import enum
+from enum import Enum
 
-class PlanNames(enum.Enum):
+class PlanNames(Enum):
 
     GLOBALNET_BRONZE = 'Globalnet Bronze'
 
@@ -9,10 +9,17 @@ class PlanNames(enum.Enum):
 
     GLOBALNET_GOLD = 'Globalnet Gold'
 
+    @classmethod
+    def choices(cls):
+        return [(key.value, key.name) for key in cls]
+
 
 class Plan(models.Model):
 
-    planName = models.CharField(choices=PlanNames.choices)
+    planName = models.CharField(max_length=20, choices=PlanNames.choices())
     subsciptionPricePerMonthInBDT = models.FloatField()
-    subsciptionDurationInMonths = models.IntegerField()
+    subsciptionExpireInMonths = models.IntegerField()
+
+    def __str__(self) -> str:
+        return self.planName
  

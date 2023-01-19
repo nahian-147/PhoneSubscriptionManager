@@ -6,7 +6,9 @@ class Customer(models.Model):
     phoneNumber = models.CharField(max_length=14,primary_key=True)
     email = models.CharField(max_length=60)
     signUpDate = models.DateField()
-    plan = models.ForeignKey(Plan, on_delete=models.CASCADE)
+    plan = models.ForeignKey(Plan,null=True, on_delete=models.SET_NULL)
     subscriptionStartDateTime = models.DateTimeField()
     totalBill = models.FloatField()
     
+    def __str__(self) -> str:
+        return self.name
