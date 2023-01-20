@@ -18,7 +18,7 @@ class Plan(models.Model):
 
     planName = models.CharField(max_length=20, choices=PlanNames.choices())
     subsciptionPricePerMonthInBDT = models.FloatField()
-    subsciptionExpireInMonths = models.IntegerField()
+    subsciptionExpireInMonths = models.IntegerField(null=True)
 
     def __str__(self) -> str:
         return self.planName
