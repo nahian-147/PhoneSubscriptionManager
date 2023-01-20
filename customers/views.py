@@ -46,10 +46,25 @@ def createCustomer(request):
 
 @api_view(['POST'])
 def updateCustomer(request, phoneNumber):
-    customer = Customer.objects.get(phoneNumber = phoneNumber)
+    customer = Customer.objects.get(primaryPhoneNumber = phoneNumber)
     customersSerializer = CustomerSerializer(instance=customer, data=request.data)
     
     if customersSerializer.is_valid():
         customersSerializer.save()
     
     return Response(customersSerializer.data)
+
+
+@api_view(['POST'])
+def changePlan(request, phoneNumber):
+    customer = Customer.objects.get(primaryPhoneNumber = phoneNumber)
+    requestedPlanId = request.data['id']
+    plan = Plan.objects.get(pk=requestedPlanId)
+    customer.plan = plan
+
+    customer.save()
+    
+    return Response(CustomerSerializer(customer).data)
+
+# def customerObjectFromCustomerDictionary(customerDictionary):
+#     customerObject = Customer()
